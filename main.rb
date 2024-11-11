@@ -20,7 +20,7 @@ continue = true
 while continue
   word = select_word
   hangman = Hangman.new(word)
-  hangman.start_game
+  hangman.play_game
   puts "Play again? Y/N"
   unless gets.chomp.downcase == 'y'
     continue = false
