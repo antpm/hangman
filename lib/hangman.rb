@@ -31,7 +31,7 @@ class Hangman
   end
 
   def load_game(save)
-    filename = "saves/save_#{save}.yml"
+    filename = "saves/#{save}"
     data = YAML.load_file(filename)
     @word = data[:word]
     @guesses = data[:guesses]

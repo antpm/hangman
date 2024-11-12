@@ -67,16 +67,17 @@ when 1
   new_game
 when 2
   puts "Select a Save File to load"
-  save_count = Dir['saves/**/*'].length 
-  save_count.times do |i|
-    puts "(#{i + 1})Save #{i + 1}"
+  saves = Dir.children('saves').sort
+  save_count = saves.length
+  saves.each_with_index do |file, i|
+    puts "(#{i + 1}) #{file.sub('.yml', '')}"
   end
   save_selection = gets.chomp.to_i
   unless save_selection.between?(1, save_count)
     puts "Invalid Selection, try again:"
     save_selection = gets.chomp.to_i
   end
-  continue_game(save_selection)
+  continue_game(saves[save_selection - 1])
 end
 
 
