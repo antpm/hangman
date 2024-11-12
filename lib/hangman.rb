@@ -5,7 +5,7 @@ class Hangman
 
   attr_reader :quit
 
-  def initialize(word)
+  def initialize(word = '')
     @word = word.downcase
     @guesses = 0
     @win = false
@@ -30,8 +30,14 @@ class Hangman
     @quit = true
   end
 
-  def load_game(file)
-    data = YAML.load(file, data)
+  def load_game(save)
+    filename = "saves/save_#{save}.yml"
+    data = YAML.load_file(filename)
+    @word = data[:word]
+    @guesses = data[:guesses]
+    @hidden_word = data[:hidden_word]
+    @guessed_letters = data[:guessed_letters]
+    play_game
   end
 
   def show_word

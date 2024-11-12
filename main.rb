@@ -15,21 +15,70 @@ def select_word(word = '')
   word
 end
 
-continue = true
+def new_game
+  continue = true
 
-while continue
-  word = select_word
-  hangman = Hangman.new(word)
-  hangman.play_game
-  if hangman.quit
-    continue = false
-  else
-    puts "Play again? Y/N"
-    unless gets.chomp.downcase == 'y'
+  while continue
+    word = select_word
+    hangman = Hangman.new(word)
+    hangman.play_game
+    if hangman.quit
       continue = false
+    else
+      puts "Play again? Y/N"
+      unless gets.chomp.downcase == 'y'
+        continue = false
+      end
     end
   end
 end
+
+def continue_game(save)
+  continue = true
+  while continue
+    hangman = Hangman.new
+    hangman.load_game(save)
+    if hangman.quit
+      continue = false
+    else
+      puts "Play again? Y/N"
+      unless gets.chomp.downcase == 'y'
+        continue = false
+      end
+    end
+  end
+end
+
+
+
+puts "Welcome to Hangman"
+puts "Select an options:"
+puts "(1)Start New Game"
+puts "(2)Continue Saved Game"
+
+input = gets.chomp.to_i
+until input == 1 or input == 2
+  puts "Invalid Selection. Please try again."
+  input = gets.chomp.to_i
+end
+
+case input
+when 1 
+  new_game
+when 2
+  puts "Select a Save File to load"
+  save_count = Dir['saves/**/*'].length 
+  save_count.times do |i|
+    puts "(#{i + 1})Save #{i + 1}"
+  end
+  save_selection = gets.chomp.to_i
+  unless save_selection.between?(1, save_count)
+    puts "Invalid Selection, try again:"
+    save_selection = gets.chomp.to_i
+  end
+  continue_game(save_selection)
+end
+
 
 puts "Goodbye"
 
